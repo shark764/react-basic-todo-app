@@ -56,8 +56,7 @@ class Create extends Component {
      * We call the handler for new items and pass
      * an object with new task and key
      */
-    const { onAddItem } = this.props;
-    onAddItem(newItem);
+    this.props.onAddItem(newItem);
   };
 
   render() {

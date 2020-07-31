@@ -95,6 +95,14 @@ module.exports = {
     'jsx-quotes': ['error', 'prefer-double'],
     'global-require': 0,
     'no-console': 'off',
+    'space-before-function-paren': [
+      'error',
+      {
+        anonymous: 'always',
+        named: 'never',
+        asyncArrow: 'always',
+      },
+    ],
     'max-len': [
       'error',
       {

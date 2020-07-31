@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import { v1 as uuid } from 'uuid';
 
 import List from '../List';
@@ -6,50 +9,33 @@ import Create from '../Create';
 import Edit from '../Edit';
 import SidePanel from '../../components/SidePanel';
 
+import { getAllItems, getSelectedItemId, getSelectedItem, getRenderCreate, getRenderEdit } from '../../redux/selectors';
+import { addItem, updateItem, removeItem, closePanel, openCreatePanel, openEditPanel } from '../../redux/actions';
+
+function mapStateToProps(state) {
+  return {
+    items: getAllItems(state),
+    renderCreate: getRenderCreate(state),
+    renderEdit: getRenderEdit(state),
+    selectedItemId: getSelectedItemId(state),
+    selectedItem: getSelectedItem(state),
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onAddItem: item => dispatch(addItem(item)),
+    onUpdateItem: (id, item) => dispatch(updateItem(id, item)),
+    onRemoveItem: id => dispatch(removeItem(id)),
+    onClosePanel: () => dispatch(closePanel()),
+    onOpenCreatePanel: () => dispatch(openCreatePanel()),
+    onOpenEditPanel: id => dispatch(openEditPanel(id)),
+  };
+}
+
 class Main extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      items: [
-        {
-          id: '6b7d54a2-caff-11ea-87d0-0242ac130003',
-          name: 'Learn how to code',
-          description: 'Spend two hours a day coding',
-          type: 'dev-task',
-          createdAt: 1578831166000,
-          isCompleted: false,
-        },
-        {
-          id: '8e0f82ec-caff-11ea-87d0-0242ac130003',
-          name: 'Learn how to cook',
-          description: 'Stop eating cereal all day',
-          type: 'daily-task',
-          createdAt: 1574104366000,
-          isCompleted: false,
-        },
-        {
-          id: 'b033cb6e-ccb0-11ea-87d0-0242ac130003',
-          name: 'Take out the trash',
-          description: "Do at least that for God's sake",
-          type: 'daily-task',
-          createdAt: 1549069931000,
-          isCompleted: true,
-        },
-        {
-          id: '66d8e256-d20a-11ea-87d0-0242ac130003',
-          name: 'Wash the dishes',
-          description: 'Or you can eat from the can, your call',
-          type: 'daily-task',
-          createdAt: 1594455449000,
-          isCompleted: false,
-        },
-      ],
-      renderCreate: false,
-      renderEdit: false,
-      selectedItem: {},
-      selectedItemId: '',
-    };
 
     /**
      * We use a class variable, to avoid re-rendering
@@ -57,51 +43,6 @@ class Main extends Component {
      */
     this.currentItem = '';
   }
-
-  onAddItem = item => {
-    this.setState(prevState => {
-      const items = [item, ...prevState.items];
-
-      return {
-        items,
-      };
-    });
-  };
-
-  onUpdateItem = uItem => {
-    this.setState(prevState => {
-      const items = prevState.items.map(item => {
-        if (item.id === uItem.id) {
-          return Object.assign(item, uItem);
-        } else {
-          return item;
-        }
-      });
-
-      return {
-        items,
-      };
-    });
-  };
-
-  onRemoveItem = id => {
-    this.setState(prevState => {
-      const items = prevState.items.filter(item => item.id !== id);
-
-      if (id === prevState.selectedItemId) {
-        return {
-          items,
-          renderEdit: false,
-          selectedItem: {},
-          selectedItemId: '',
-        };
-      }
-
-      return {
-        items,
-      };
-    });
-  };
 
   handleInputChange = e => {
     /**
@@ -133,13 +74,14 @@ class Main extends Component {
       name: this.currentItem,
       description: '',
       type: 'daily-task',
+      createdAt: Date.now(),
       isCompleted: false,
     };
     /**
      * We call the handler for new items and pass
      * an object with new task and key
      */
-    this.onAddItem(newItem);
+    this.props.onAddItem(newItem);
 
     /**
      * We clean class variable, to avoid adding
@@ -156,39 +98,7 @@ class Main extends Component {
     this.mainInput.value = '';
   };
 
-  handleCreate = () => {
-    this.setState({
-      renderCreate: true,
-      renderEdit: false,
-      selectedItem: {},
-      selectedItemId: '',
-    });
-  };
-
-  handleEdit = id => {
-    this.setState(prevState => {
-      const selectedItem = prevState.items.find(item => item.id === id);
-      return {
-        renderCreate: false,
-        renderEdit: true,
-        selectedItem,
-        selectedItemId: id,
-      };
-    });
-  };
-
-  handleClose = () => {
-    this.setState({
-      renderCreate: false,
-      renderEdit: false,
-      selectedItem: {},
-      selectedItemId: '',
-    });
-  };
-
   render() {
-    const { items, renderCreate, renderEdit, selectedItemId, selectedItem } = this.state;
-
     return (
       <div className="App-main">
         <div className="App-list">
@@ -202,7 +112,7 @@ class Main extends Component {
               />
               <input type="submit" value="Add" />
 
-              <button type="button" onClick={this.handleCreate}>
+              <button type="button" onClick={this.props.onOpenCreatePanel}>
                 Create
               </button>
             </form>
@@ -210,26 +120,26 @@ class Main extends Component {
 
           <div className="rTable-container">
             <List
-              items={items}
-              onUpdateItem={this.onUpdateItem}
-              onRemoveItem={this.onRemoveItem}
-              handleEdit={this.handleEdit}
+              items={this.props.items}
+              onUpdateItem={this.props.onUpdateItem}
+              onRemoveItem={this.props.onRemoveItem}
+              handleEdit={this.props.onOpenEditPanel}
             />
           </div>
         </div>
 
-        {renderCreate && (
-          <SidePanel handleClose={this.handleClose}>
-            <Create key="create" onAddItem={this.onAddItem} />
+        {this.props.renderCreate && (
+          <SidePanel handleClose={this.props.onClosePanel}>
+            <Create key="create" onAddItem={this.props.onAddItem} />
           </SidePanel>
         )}
-        {renderEdit && selectedItemId && (
-          <SidePanel handleClose={this.handleClose}>
+        {this.props.renderEdit && this.props.selectedItemId && (
+          <SidePanel handleClose={this.props.onClosePanel}>
             <Edit
-              key={selectedItemId}
-              selectedItemId={selectedItemId}
-              selectedItem={selectedItem}
-              onUpdateItem={this.onUpdateItem}
+              key={this.props.selectedItemId}
+              selectedItemId={this.props.selectedItemId}
+              selectedItem={this.props.selectedItem}
+              onUpdateItem={this.props.onUpdateItem}
             />
           </SidePanel>
         )}
@@ -238,4 +148,26 @@ class Main extends Component {
   }
 }
 
-export default Main;
+Main.propTypes = {
+  items: ImmutablePropTypes.listOf(
+    ImmutablePropTypes.contains({
+      name: PropTypes.string,
+      id: PropTypes.string,
+    })
+  ),
+  renderCreate: PropTypes.bool,
+  renderEdit: PropTypes.bool,
+  selectedItemId: PropTypes.string,
+  selectedItem: ImmutablePropTypes.contains({
+    name: PropTypes.string,
+    id: PropTypes.string,
+  }),
+  onAddItem: PropTypes.func,
+  onUpdateItem: PropTypes.func,
+  onRemoveItem: PropTypes.func,
+  onClosePanel: PropTypes.func,
+  onOpenCreatePanel: PropTypes.func,
+  onOpenEditPanel: PropTypes.func,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

@@ -7,7 +7,7 @@ class Edit extends Component {
     super(props);
 
     this.state = {
-      ...props.selectedItem,
+      ...props.selectedItem.toJS(),
       // name,
       // description,
       // type,
@@ -32,7 +32,7 @@ class Edit extends Component {
     e.preventDefault();
 
     const { name, description, type, isCompleted } = this.state;
-    const { selectedItemId } = this.props;
+    const { selectedItemId, onUpdateItem } = this.props;
 
     /**
      * Text is empty, return
@@ -45,7 +45,6 @@ class Edit extends Component {
      * New item with default data
      */
     const updatedItem = {
-      id: selectedItemId,
       name,
       description,
       type,
@@ -56,8 +55,7 @@ class Edit extends Component {
      * We call the handler for new items and pass
      * an object with new task and key
      */
-    const { onUpdateItem } = this.props;
-    onUpdateItem(updatedItem);
+    onUpdateItem(selectedItemId, updatedItem);
   };
 
   render() {

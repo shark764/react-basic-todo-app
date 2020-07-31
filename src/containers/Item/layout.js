@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import moment from 'moment';
 import { humanize } from '../../utils';
 function Layout(props) {
@@ -18,12 +19,12 @@ function Layout(props) {
   return (
     <div className="rTableRow">
       <div className="rTableCell">
-        <span>{item.id}</span>
+        <span>{item.get('id')}</span>
       </div>
       <div className="rTableCell">
         <span>
           {isCompleted ? (
-            <span className="item-completed">{item.name}</span>
+            <span className="item-completed">{item.get('name')}</span>
           ) : (
             <input
               type="text"
@@ -38,13 +39,13 @@ function Layout(props) {
         </span>
       </div>
       <div className="rTableCell">
-        <span>{humanize(item.type)}</span>
+        <span>{humanize(item.get('type'))}</span>
       </div>
       <div className="rTableCell">
-        <span>{item.description}</span>
+        <span>{item.get('description')}</span>
       </div>
       <div className="rTableCell">
-        <span>{moment(item.createdAt).format('lll')}</span>
+        <span>{moment(item.get('createdAt')).format('lll')}</span>
       </div>
       <div className="rTableCell rTableAction">
         <span>
@@ -52,10 +53,10 @@ function Layout(props) {
         </span>
       </div>
       <div className="rTableCell rTableAction">
-        <button type="button" onClick={() => handleEdit(item.id)}>
+        <button type="button" onClick={() => handleEdit(item.get('id'))}>
           Edit
         </button>
-        <button type="button" onClick={() => onRemoveItem(item.id)}>
+        <button type="button" onClick={() => onRemoveItem(item.get('id'))}>
           X
         </button>
       </div>
@@ -64,7 +65,7 @@ function Layout(props) {
 }
 
 Layout.propTypes = {
-  item: PropTypes.shape({
+  item: ImmutablePropTypes.contains({
     name: PropTypes.string,
     description: PropTypes.string,
     type: PropTypes.string,
