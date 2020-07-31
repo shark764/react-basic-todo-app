@@ -1,14 +1,15 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 
 import React from 'react';
+import { Field } from 'redux-form/immutable';
 import PropTypes from 'prop-types';
 import { taskTypes } from '../../utils';
 
 function Layout(props) {
-  const { selectedItemId, name, description, type, isCompleted, handleInputChange, handleSubmit } = props;
+  const { key, selectedItemId, handleSubmit, pristine, reset, submitting } = props;
 
   return (
-    <form onSubmit={handleSubmit} autoComplete="off">
+    <form onSubmit={handleSubmit} key={key} autoComplete="off">
       <label htmlFor="id">
         <span>ID:</span>
         <span>{selectedItemId}</span>
@@ -16,12 +17,12 @@ function Layout(props) {
 
       <label htmlFor="name">
         <span className="required">Name:</span>
-        <input type="text" name="name" value={name} onChange={handleInputChange} placeholder="Enter a task name..." />
+        <Field name="name" component="input" type="text" placeholder="Enter a task name..." />
       </label>
 
       <label htmlFor="type">
         <span className="required">Pick task type:</span>
-        <select name="type" value={type} onChange={handleInputChange}>
+        <Field name="type" component="select">
           <option value="" disabled>
             Select a type...
           </option>
@@ -30,45 +31,36 @@ function Layout(props) {
               {option.label}
             </option>
           ))}
-        </select>
+        </Field>
       </label>
 
       <label htmlFor="description">
         <span>Description:</span>
-        <textarea
-          name="description"
-          value={description}
-          onChange={handleInputChange}
-          placeholder="Add a description..."
-          cols="30"
-          rows="5"
-        />
+        <Field name="description" component="textarea" placeholder="Add a description..." cols="30" rows="5" />
       </label>
 
-      <input
-        type="checkbox"
-        name="isCompleted"
-        className="a11y-hidden"
-        checked={isCompleted}
-        onChange={handleInputChange}
-      />
       <label className="label-checkbox" htmlFor="isCompleted">
         <span>Is completed?</span>
+        <Field name="isCompleted" component="input" type="checkbox" className="a11y-hidden" />
       </label>
 
-      <input type="submit" value="Submit" />
+      <div className="inline">
+        <input type="submit" value="Submit" disabled={pristine || submitting} />
+        <button type="button" disabled={pristine || submitting} onClick={reset}>
+          Clear Values
+        </button>
+      </div>
     </form>
   );
 }
 
 Layout.propTypes = {
+  key: PropTypes.string,
   selectedItemId: PropTypes.string,
-  name: PropTypes.string,
-  description: PropTypes.string,
-  type: PropTypes.string,
-  isCompleted: PropTypes.bool,
-  handleInputChange: PropTypes.func,
   handleSubmit: PropTypes.func,
+  pristine: PropTypes.bool,
+  reset: PropTypes.func,
+  submitting: PropTypes.bool,
 };
 
 export default Layout;

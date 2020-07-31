@@ -1,4 +1,4 @@
-import { fromJS } from 'immutable';
+import { fromJS, List } from 'immutable';
 import * as ACTIONS from '../constants';
 
 const initialState = fromJS({
@@ -46,12 +46,12 @@ const getItemIndex = (state, entity, itemId) => state.get(entity).findIndex(item
 function appReducer(state = initialState, action) {
   switch (action.type) {
     case ACTIONS.ADD_ITEM: {
-      return state.update('items', items => items.unshift(fromJS(action.payload)));
+      return state.update('items', items => items.unshift(action.payload));
     }
 
     case ACTIONS.UPDATE_ITEM: {
       const itemIndex = getItemIndex(state, 'items', action.id);
-      return state.updateIn(['items', itemIndex], item => item.merge(fromJS(action.payload)));
+      return state.updateIn(['items', itemIndex], item => item.merge(action.payload));
     }
 
     case ACTIONS.REMOVE_ITEM: {
@@ -84,6 +84,14 @@ function appReducer(state = initialState, action) {
 
     case ACTIONS.CLOSE_PANEL: {
       return state.set('renderCreate', false).set('renderEdit', false).set('selectedItemId', '');
+    }
+
+    case ACTIONS.CLEAR_LIST: {
+      return state.set('items', new List([])).set('renderEdit', false).set('selectedItemId', '');
+    }
+
+    case ACTIONS.TOGGLE_ALL: {
+      return state.update('items', items => items.map(item => item.set('isCompleted', action.bool)));
     }
 
     default:

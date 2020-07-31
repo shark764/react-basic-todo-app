@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { fromJS } from 'immutable';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
@@ -10,7 +11,16 @@ import Edit from '../Edit';
 import SidePanel from '../../components/SidePanel';
 
 import { getAllItems, getSelectedItemId, getSelectedItem, getRenderCreate, getRenderEdit } from '../../redux/selectors';
-import { addItem, updateItem, removeItem, closePanel, openCreatePanel, openEditPanel } from '../../redux/actions';
+import {
+  addItem,
+  updateItem,
+  removeItem,
+  closePanel,
+  clearList,
+  toggleAll,
+  openCreatePanel,
+  openEditPanel,
+} from '../../redux/actions';
 
 function mapStateToProps(state) {
   return {
@@ -27,6 +37,8 @@ function mapDispatchToProps(dispatch) {
     onAddItem: item => dispatch(addItem(item)),
     onUpdateItem: (id, item) => dispatch(updateItem(id, item)),
     onRemoveItem: id => dispatch(removeItem(id)),
+    onClearList: () => dispatch(clearList()),
+    onToggleAll: bool => dispatch(toggleAll(bool)),
     onClosePanel: () => dispatch(closePanel()),
     onOpenCreatePanel: () => dispatch(openCreatePanel()),
     onOpenEditPanel: id => dispatch(openEditPanel(id)),
@@ -69,14 +81,14 @@ class Main extends Component {
     /**
      * New item with default data
      */
-    const newItem = {
+    const newItem = fromJS({
       id: uuid(),
       name: this.currentItem,
       description: '',
       type: 'daily-task',
       createdAt: Date.now(),
       isCompleted: false,
-    };
+    });
     /**
      * We call the handler for new items and pass
      * an object with new task and key
@@ -115,6 +127,10 @@ class Main extends Component {
               <button type="button" onClick={this.props.onOpenCreatePanel}>
                 Create
               </button>
+
+              <button type="button" onClick={this.props.onClearList}>
+                Clear List
+              </button>
             </form>
           </header>
 
@@ -123,6 +139,7 @@ class Main extends Component {
               items={this.props.items}
               onUpdateItem={this.props.onUpdateItem}
               onRemoveItem={this.props.onRemoveItem}
+              onToggleAll={this.props.onToggleAll}
               handleEdit={this.props.onOpenEditPanel}
             />
           </div>
@@ -130,17 +147,12 @@ class Main extends Component {
 
         {this.props.renderCreate && (
           <SidePanel handleClose={this.props.onClosePanel}>
-            <Create key="create" onAddItem={this.props.onAddItem} />
+            <Create />
           </SidePanel>
         )}
         {this.props.renderEdit && this.props.selectedItemId && (
           <SidePanel handleClose={this.props.onClosePanel}>
-            <Edit
-              key={this.props.selectedItemId}
-              selectedItemId={this.props.selectedItemId}
-              selectedItem={this.props.selectedItem}
-              onUpdateItem={this.props.onUpdateItem}
-            />
+            <Edit key={this.props.selectedItemId} />
           </SidePanel>
         )}
       </div>
@@ -153,18 +165,16 @@ Main.propTypes = {
     ImmutablePropTypes.contains({
       name: PropTypes.string,
       id: PropTypes.string,
-    })
+    }),
   ),
   renderCreate: PropTypes.bool,
   renderEdit: PropTypes.bool,
   selectedItemId: PropTypes.string,
-  selectedItem: ImmutablePropTypes.contains({
-    name: PropTypes.string,
-    id: PropTypes.string,
-  }),
   onAddItem: PropTypes.func,
   onUpdateItem: PropTypes.func,
   onRemoveItem: PropTypes.func,
+  onClearList: PropTypes.func,
+  onToggleAll: PropTypes.func,
   onClosePanel: PropTypes.func,
   onOpenCreatePanel: PropTypes.func,
   onOpenEditPanel: PropTypes.func,

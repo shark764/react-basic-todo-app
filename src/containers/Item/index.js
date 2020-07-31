@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import { fromJS } from 'immutable';
 import Layout from './layout';
 
 class Item extends Component {
@@ -39,8 +40,12 @@ class Item extends Component {
   handleBlur = () => {
     const { item, onUpdateItem } = this.props;
     const { name } = this.state;
+    /**
+     * Avoiding firing update event twice
+     * if user already pressed enter
+     */
     if (item.get('name') !== name) {
-      onUpdateItem(item.get('id'), { name });
+      onUpdateItem(item.get('id'), fromJS({ name }));
     }
   };
 
@@ -53,7 +58,7 @@ class Item extends Component {
       const { item, onUpdateItem } = this.props;
       const { name } = this.state;
       if (item.get('name') !== name) {
-        onUpdateItem(item.get('id'), { name });
+        onUpdateItem(item.get('id'), fromJS({ name }));
       }
     }
   };
@@ -61,9 +66,12 @@ class Item extends Component {
   handleCheck = () => {
     const { item, onUpdateItem } = this.props;
     const { isCompleted } = this.state;
-    onUpdateItem(item.get('id'), {
-      isCompleted: !isCompleted,
-    });
+    onUpdateItem(
+      item.get('id'),
+      fromJS({
+        isCompleted: !isCompleted,
+      }),
+    );
     this.setState(prevState => ({
       isCompleted: !prevState.isCompleted,
     }));

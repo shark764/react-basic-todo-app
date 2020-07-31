@@ -4,6 +4,7 @@
   "private": true,
   "description": "TODO App made in ReactJs",
   "author": "El Papu de Papus",
+  "homepage": "https://shark764.github.io/react-basic-todo-app",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -19,12 +20,15 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "redux": "^4.0.5",
+    "redux-form": "^8.3.6",
     "redux-immutable": "^4.0.0",
     "redux-saga": "^1.1.3",
     "uuid": "^8.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -57,8 +61,7 @@
     "eslint-plugin-react": "^7.20.3",
     "eslint-plugin-redux-saga": "^1.1.3",
     "eslint-plugin-standard": "^4.0.1",
-    "prettier": "^2.0.5",
-    "redux-devtools-extension": "^2.13.8",
-    "remote-redux-devtools": "^0.5.16"
+    "gh-pages": "^3.1.0",
+    "prettier": "^2.0.5"
   }
 }

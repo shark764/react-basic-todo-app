@@ -1,4 +1,13 @@
+import { v1 as uuid } from 'uuid';
 import * as ACTIONS from '../constants';
+
+export function formSubmit(action, payload) {
+  if (action === 'edit') {
+    return updateItem(payload.get('id'), payload);
+  }
+
+  return addItem(payload.set('id', uuid()).set('createdAt', Date.now()).set('isCompleted', false));
+}
 
 export function addItem(payload) {
   return {
@@ -46,6 +55,19 @@ export function setRenderEdit(payload) {
 export function closePanel() {
   return {
     type: ACTIONS.CLOSE_PANEL,
+  };
+}
+
+export function clearList() {
+  return {
+    type: ACTIONS.CLEAR_LIST,
+  };
+}
+
+export function toggleAll(bool) {
+  return {
+    type: ACTIONS.TOGGLE_ALL,
+    bool,
   };
 }
 
