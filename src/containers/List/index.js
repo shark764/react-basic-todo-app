@@ -1,41 +1,32 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import Item from '../Item';
+import Layout from './layout';
 
-function List(props) {
-  const { items, ...rest } = props;
-  return (
-    <div className="rTable">
-      <div className="rTableHeading">
-        <div className="rTableHead">
-          <span>ID</span>
-        </div>
-        <div className="rTableHead">
-          <span>Name</span>
-        </div>
-        <div className="rTableHead">
-          <span>Type</span>
-        </div>
-        <div className="rTableHead">
-          <span>Description</span>
-        </div>
-        <div className="rTableHead">
-          <span>Created at</span>
-        </div>
-        <div className="rTableHead">
-          <span>Completed</span>
-        </div>
-        <div className="rTableHead rTableAction">&nbsp;</div>
-      </div>
+class List extends Component {
+  constructor(props) {
+    super(props);
 
-      <div className="rTableBody">
-        {items.map(item => (
-          <Item key={item.get('id')} item={item} {...rest} />
-        ))}
-      </div>
-    </div>
-  );
+    this.state = {
+      toggleAll: false,
+    };
+  }
+
+  handleCheck = () => {
+    const { toggleAll } = this.state;
+    this.props.onToggleAll(!toggleAll);
+
+    this.setState(prevState => ({
+      toggleAll: !prevState.toggleAll,
+    }));
+  };
+
+  render() {
+    const { toggleAll } = this.state;
+    const { items, ...rest } = this.props;
+
+    return <Layout items={items} toggleAll={toggleAll} handleCheck={this.handleCheck} {...rest} />;
+  }
 }
 
 List.propTypes = {
@@ -45,6 +36,7 @@ List.propTypes = {
       id: PropTypes.string,
     }),
   ),
+  onToggleAll: PropTypes.func,
 };
 
 export default List;

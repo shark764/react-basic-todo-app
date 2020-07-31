@@ -44,10 +44,12 @@ function Layout(props) {
         <Field name="isCompleted" component="input" type="checkbox" className="a11y-hidden" />
       </label>
 
-      <input type="submit" value="Submit" disabled={pristine || submitting} />
-      <button type="button" disabled={pristine || submitting} onClick={reset}>
-        Clear Values
-      </button>
+      <div className="inline">
+        <input type="submit" value="Submit" disabled={pristine || submitting} />
+        <button type="button" disabled={pristine || submitting} onClick={reset}>
+          Clear Values
+        </button>
+      </div>
     </form>
   );
 }

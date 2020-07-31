@@ -5,12 +5,12 @@ import Layout from './layout';
 import { formSubmit } from '../../redux/actions';
 
 const mapStateToProps = () => ({
-  form: 'form:create',
   key: 'form:create',
   initialValues: fromJS({}),
 });
 
 const Form = reduxForm({
+  form: 'form:create',
   onSubmit: (values, dispatch) => dispatch(formSubmit('create', values)),
   destroyOnUnmount: true,
 })(Layout);

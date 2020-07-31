@@ -34,10 +34,12 @@ function Layout(props) {
         <Field name="description" component="textarea" placeholder="Add a description..." cols="30" rows="5" />
       </label>
 
-      <input type="submit" value="Submit" disabled={pristine || submitting} />
-      <button type="button" disabled={pristine || submitting} onClick={reset}>
-        Clear Values
-      </button>
+      <div className="inline">
+        <input type="submit" value="Submit" disabled={pristine || submitting} />
+        <button type="button" disabled={pristine || submitting} onClick={reset}>
+          Clear Values
+        </button>
+      </div>
     </form>
   );
 }

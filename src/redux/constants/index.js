@@ -18,6 +18,10 @@ export const SET_RENDER_EDIT = 'app/MainApplication/SET_RENDER_EDIT';
 
 export const CLOSE_PANEL = 'app/MainApplication/CLOSE_PANEL';
 
+export const CLEAR_LIST = 'app/MainApplication/CLEAR_LIST';
+
+export const TOGGLE_ALL = 'app/MainApplication/TOGGLE_ALL';
+
 export const OPEN_CREATE_PANEL = 'app/MainApplication/OPEN_CREATE_PANEL';
 
 export const OPEN_EDIT_PANEL = 'app/MainApplication/OPEN_EDIT_PANEL';

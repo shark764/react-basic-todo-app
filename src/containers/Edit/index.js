@@ -8,6 +8,7 @@ const mapStateToProps = state => ({
   form: `form:${getSelectedItemId(state)}`,
   key: `form:${getSelectedItemId(state)}`,
   initialValues: getSelectedItem(state),
+  selectedItemId: getSelectedItemId(state),
 });
 
 const Form = reduxForm({
