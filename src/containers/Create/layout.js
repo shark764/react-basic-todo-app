@@ -6,9 +6,9 @@ import PropTypes from 'prop-types';
 import { taskTypes } from '../../utils';
 
 function Layout(props) {
-  const { key, handleSubmit, pristine, reset, submitting } = props;
+  const { key, handleSubmit, pristine, reset, submitting, mode } = props;
 
-  return (
+  let content = (
     <form onSubmit={handleSubmit} key={key} autoComplete="off">
       <label htmlFor="name">
         <span className="required">Name:</span>
@@ -34,12 +34,24 @@ function Layout(props) {
         <Field name="description" component="textarea" placeholder="Add a description..." cols="30" rows="5" />
       </label>
 
-      <input type="submit" value="Submit" disabled={pristine || submitting} />
-      <button type="button" disabled={pristine || submitting} onClick={reset}>
-        Clear Values
-      </button>
+      <div className="actions-inline">
+        <input type="submit" value="Submit" disabled={pristine || submitting} />
+        <button type="button" disabled={pristine || submitting} onClick={reset}>
+          Clear Values
+        </button>
+      </div>
     </form>
   );
+
+  if (mode !== 'inline') {
+    content = (
+      <div className="App-main">
+        <div className="App-list">{content}</div>
+      </div>
+    );
+  }
+
+  return content;
 }
 
 Layout.propTypes = {
@@ -48,6 +60,7 @@ Layout.propTypes = {
   pristine: PropTypes.bool,
   reset: PropTypes.func,
   submitting: PropTypes.bool,
+  mode: PropTypes.string,
 };
 
 export default Layout;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Router from './components/Router';
+import Routing from './components/Routing';
 
 import logo from './assets/image/logo.svg';
 import './assets/css/App.css';
@@ -17,7 +17,7 @@ function App() {
         </a>
       </header>
 
-      <Router />
+      <Routing />
     </div>
   );
 }

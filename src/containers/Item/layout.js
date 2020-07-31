@@ -13,11 +13,12 @@ function Layout(props) {
     handleBlur,
     handleKeyDown,
     handleCheck,
-    handleEdit,
+    onOpenEditPanel,
+    handleDoubleClick,
   } = props;
 
   return (
-    <div className="rTableRow">
+    <div className="rTableRow" onDoubleClick={handleDoubleClick}>
       <div className="rTableCell">
         <span>{item.get('id')}</span>
       </div>
@@ -53,7 +54,7 @@ function Layout(props) {
         </span>
       </div>
       <div className="rTableCell rTableAction">
-        <button type="button" onClick={() => handleEdit(item.get('id'))}>
+        <button type="button" onClick={() => onOpenEditPanel(item.get('id'))}>
           Edit
         </button>
         <button type="button" onClick={() => onRemoveItem(item.get('id'))}>
@@ -79,7 +80,8 @@ Layout.propTypes = {
   handleBlur: PropTypes.func,
   handleKeyDown: PropTypes.func,
   handleCheck: PropTypes.func,
-  handleEdit: PropTypes.func,
+  onOpenEditPanel: PropTypes.func,
+  handleDoubleClick: PropTypes.func,
 };
 
 export default Layout;

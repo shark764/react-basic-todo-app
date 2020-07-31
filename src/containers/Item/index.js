@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
+import { fromJS } from 'immutable';
 import Layout from './layout';
+import { updateItem, removeItem, openEditPanel } from '../../redux/actions';
 
 class Item extends Component {
   constructor(props) {
@@ -36,12 +39,20 @@ class Item extends Component {
     });
   };
 
-  handleBlur = () => {
+  handleUpdate = () => {
     const { item, onUpdateItem } = this.props;
     const { name } = this.state;
+    /**
+     * Avoiding firing update event twice
+     * if user already pressed enter
+     */
     if (item.get('name') !== name) {
-      onUpdateItem(item.get('id'), { name });
+      onUpdateItem(item.get('id'), fromJS({ name }));
     }
+  };
+
+  handleBlur = () => {
+    this.handleUpdate();
   };
 
   handleKeyDown = ({ keyCode }) => {
@@ -50,32 +61,31 @@ class Item extends Component {
      * and global state
      */
     if (keyCode === 13) {
-      const { item, onUpdateItem } = this.props;
-      const { name } = this.state;
-      if (item.get('name') !== name) {
-        onUpdateItem(item.get('id'), { name });
-      }
+      this.handleUpdate();
     }
   };
 
   handleCheck = () => {
     const { item, onUpdateItem } = this.props;
     const { isCompleted } = this.state;
-    onUpdateItem(item.get('id'), {
-      isCompleted: !isCompleted,
-    });
+    onUpdateItem(
+      item.get('id'),
+      fromJS({
+        isCompleted: !isCompleted,
+      }),
+    );
     this.setState(prevState => ({
       isCompleted: !prevState.isCompleted,
     }));
   };
 
-  // handleEdit = () => {
-  //   const { item } = this.props;
-  //   this.props.history.push(`/edit/${item.id}`);
-  // };
+  handleDoubleClick = () => {
+    const { item } = this.props;
+    this.props.history.push(`/edit/${item.get('id')}`);
+  };
 
   render() {
-    const { item, onRemoveItem, handleEdit } = this.props;
+    const { item, onRemoveItem, onOpenEditPanel } = this.props;
     const { name, isCompleted } = this.state;
 
     return (
@@ -88,8 +98,9 @@ class Item extends Component {
         handleBlur={this.handleBlur}
         handleKeyDown={this.handleKeyDown}
         handleCheck={this.handleCheck}
-        handleEdit={handleEdit}
+        onOpenEditPanel={onOpenEditPanel}
         handleSubmit={this.handleSubmit}
+        handleDoubleClick={this.handleDoubleClick}
       />
     );
   }
@@ -103,7 +114,16 @@ Item.propTypes = {
   }),
   onRemoveItem: PropTypes.func,
   onUpdateItem: PropTypes.func,
-  handleEdit: PropTypes.func,
+  onOpenEditPanel: PropTypes.func,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
 };
 
-export default withRouter(Item);
+const actions = {
+  onUpdateItem: updateItem,
+  onRemoveItem: removeItem,
+  onOpenEditPanel: openEditPanel,
+};
+
+export default connect(null, actions)(withRouter(Item));

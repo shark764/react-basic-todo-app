@@ -1,41 +1,36 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import Item from '../Item';
+import Layout from './layout';
 
-function List(props) {
-  const { items, ...rest } = props;
-  return (
-    <div className="rTable">
-      <div className="rTableHeading">
-        <div className="rTableHead">
-          <span>ID</span>
-        </div>
-        <div className="rTableHead">
-          <span>Name</span>
-        </div>
-        <div className="rTableHead">
-          <span>Type</span>
-        </div>
-        <div className="rTableHead">
-          <span>Description</span>
-        </div>
-        <div className="rTableHead">
-          <span>Created at</span>
-        </div>
-        <div className="rTableHead">
-          <span>Completed</span>
-        </div>
-        <div className="rTableHead rTableAction">&nbsp;</div>
-      </div>
+import { getAllItems } from '../../redux/selectors';
+import { toggleAll } from '../../redux/actions';
 
-      <div className="rTableBody">
-        {items.map(item => (
-          <Item key={item.get('id')} item={item} {...rest} />
-        ))}
-      </div>
-    </div>
-  );
+class List extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      checkedAll: false,
+    };
+  }
+
+  handleCheck = () => {
+    const { checkedAll } = this.state;
+    this.props.onToggleAll(!checkedAll);
+
+    this.setState(prevState => ({
+      checkedAll: !prevState.checkedAll,
+    }));
+  };
+
+  render() {
+    const { checkedAll } = this.state;
+    const { items, ...rest } = this.props;
+
+    return <Layout items={items} checkedAll={checkedAll} handleCheck={this.handleCheck} {...rest} />;
+  }
 }
 
 List.propTypes = {
@@ -45,6 +40,15 @@ List.propTypes = {
       id: PropTypes.string,
     }),
   ),
+  onToggleAll: PropTypes.func,
 };
 
-export default List;
+const mapStateToProps = state => ({
+  items: getAllItems(state),
+});
+
+const actions = {
+  onToggleAll: toggleAll,
+};
+
+export default connect(mapStateToProps, actions)(List);
