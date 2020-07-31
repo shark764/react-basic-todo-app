@@ -1,5 +1,13 @@
 import * as ACTIONS from '../constants';
 
+export function formSubmit(action, payload) {
+  if (action === 'edit') {
+    return updateItem(payload.id, payload);
+  }
+  console.log(action, payload);
+  return addItem(payload);
+}
+
 export function addItem(payload) {
   return {
     type: ACTIONS.ADD_ITEM,

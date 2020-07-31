@@ -130,17 +130,12 @@ class Main extends Component {
 
         {this.props.renderCreate && (
           <SidePanel handleClose={this.props.onClosePanel}>
-            <Create key="create" onAddItem={this.props.onAddItem} />
+            <Create />
           </SidePanel>
         )}
         {this.props.renderEdit && this.props.selectedItemId && (
           <SidePanel handleClose={this.props.onClosePanel}>
-            <Edit
-              key={this.props.selectedItemId}
-              selectedItemId={this.props.selectedItemId}
-              selectedItem={this.props.selectedItem}
-              onUpdateItem={this.props.onUpdateItem}
-            />
+            <Edit key={this.props.selectedItemId} />
           </SidePanel>
         )}
       </div>
@@ -153,15 +148,11 @@ Main.propTypes = {
     ImmutablePropTypes.contains({
       name: PropTypes.string,
       id: PropTypes.string,
-    })
+    }),
   ),
   renderCreate: PropTypes.bool,
   renderEdit: PropTypes.bool,
   selectedItemId: PropTypes.string,
-  selectedItem: ImmutablePropTypes.contains({
-    name: PropTypes.string,
-    id: PropTypes.string,
-  }),
   onAddItem: PropTypes.func,
   onUpdateItem: PropTypes.func,
   onRemoveItem: PropTypes.func,

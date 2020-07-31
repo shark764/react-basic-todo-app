@@ -2,6 +2,8 @@
  * action-types
  */
 
+export const FORM_SUBMIT = 'app/MainApplication/FORM_SUBMIT';
+
 export const ADD_ITEM = 'app/MainApplication/ADD_ITEM';
 
 export const UPDATE_ITEM = 'app/MainApplication/UPDATE_ITEM';

@@ -43,7 +43,7 @@ List.propTypes = {
     ImmutablePropTypes.contains({
       name: PropTypes.string,
       id: PropTypes.string,
-    })
+    }),
   ),
 };
 

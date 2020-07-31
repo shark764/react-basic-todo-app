@@ -1,92 +1,20 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { reduxForm } from 'redux-form/immutable';
 import Layout from './layout';
+import { formSubmit } from '../../redux/actions';
+import { getSelectedItemId, getSelectedItem } from '../../redux/selectors';
 
-class Edit extends Component {
-  constructor(props) {
-    super(props);
+const mapStateToProps = state => ({
+  form: `form:${getSelectedItemId(state)}`,
+  key: `form:${getSelectedItemId(state)}`,
+  initialValues: getSelectedItem(state),
+});
 
-    this.state = {
-      ...props.selectedItem.toJS(),
-      // name,
-      // description,
-      // type,
-      // isCompleted,
-    };
-  }
+const Form = reduxForm({
+  onSubmit: (values, dispatch) => dispatch(formSubmit('edit', values)),
+  destroyOnUnmount: true,
+})(Layout);
 
-  handleInputChange = e => {
-    const { target } = e;
-    const value = target.name === 'isCompleted' ? target.checked : target.value;
-    const { name } = target;
+const ConnectedForm = connect(mapStateToProps)(Form);
 
-    this.setState({
-      [name]: value,
-    });
-  };
-
-  handleSubmit = e => {
-    /**
-     * We prevent page from refreshing
-     */
-    e.preventDefault();
-
-    const { name, description, type, isCompleted } = this.state;
-    const { selectedItemId, onUpdateItem } = this.props;
-
-    /**
-     * Text is empty, return
-     */
-    if (name.trim() === '') {
-      return;
-    }
-
-    /**
-     * New item with default data
-     */
-    const updatedItem = {
-      name,
-      description,
-      type,
-      isCompleted,
-    };
-
-    /**
-     * We call the handler for new items and pass
-     * an object with new task and key
-     */
-    onUpdateItem(selectedItemId, updatedItem);
-  };
-
-  render() {
-    const { name, description, type, isCompleted } = this.state;
-    const { selectedItem, selectedItemId } = this.props;
-
-    return (
-      <Layout
-        selectedItem={selectedItem}
-        selectedItemId={selectedItemId}
-        name={name}
-        description={description}
-        type={type}
-        isCompleted={isCompleted}
-        handleInputChange={this.handleInputChange}
-        handleSubmit={this.handleSubmit}
-      />
-    );
-  }
-}
-
-Edit.propTypes = {
-  selectedItemId: PropTypes.string,
-  selectedItem: PropTypes.shape({
-    name: PropTypes.string,
-    id: PropTypes.string,
-    description: PropTypes.string,
-    type: PropTypes.string,
-    isCompleted: PropTypes.bool,
-  }),
-  onUpdateItem: PropTypes.func,
-};
-
-export default Edit;
+export default ConnectedForm;
