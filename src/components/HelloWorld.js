@@ -1,12 +1,12 @@
 import React from 'react';
 
-function HelloWorld() {
+const HelloWorld = props => {
   return (
     <div>
-      <h1>Hello World</h1>
-      <p>This is my first component. See how easy React is?</p>
+      <h1>{props.helloMessage}</h1>
+      <p>{props.text}</p>
     </div>
   );
-}
+};
 
 export default HelloWorld;

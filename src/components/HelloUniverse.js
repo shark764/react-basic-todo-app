@@ -1,12 +1,12 @@
 import React from 'react';
 
-function HelloUniverse() {
+const HelloUniverse = props => {
   return (
     <div>
-      <h1>Hello Universe!!</h1>
-      <p>Wait, are you telling me there is a multiverse?</p>
+      <h1>{props.helloMessage}</h1>
+      <p>{props.text}</p>
     </div>
   );
-}
+};
 
 export default HelloUniverse;

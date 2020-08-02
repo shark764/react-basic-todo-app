@@ -1,10 +1,14 @@
 import React from 'react';
 
-import HelloWorld from './components/HelloWorld';
-import HelloUniverse from './components/HelloUniverse';
-
 import logo from './assets/image/logo.svg';
 import './assets/css/App.css';
+import './assets/css/table.css';
+import './assets/css/form.css';
+
+import HelloWorld from './components/HelloWorld';
+import HelloUniverse from './components/HelloUniverse';
+import HelloImmutable from './components/ImmutableExamples/HelloImmutable';
+import StatefulComponent from './components/StatefulComponent';
 
 function App() {
   return (
@@ -16,9 +20,18 @@ function App() {
         </a>
       </header>
 
-      <HelloWorld />
+      <HelloWorld helloMessage="Hello World" text="This is my first component. See how easy React is?" />
+
       <div className="App-main">
-        <HelloUniverse />
+        <HelloUniverse helloMessage="Hello Universe!!" text="Wait, are you telling me there is a multiverse?" />
+      </div>
+
+      <div className="App-main">
+        <HelloImmutable />
+      </div>
+
+      <div className="App-main">
+        <StatefulComponent />
       </div>
     </div>
   );
