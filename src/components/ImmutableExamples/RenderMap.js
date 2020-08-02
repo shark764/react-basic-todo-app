@@ -6,16 +6,24 @@ const RenderMap = ({ dataMap }) => (
   <div style={{ flex: 1, marginRight: '75px' }}>
     <h3>Immutable.Map</h3>
     <p>
-      <strong>ID:</strong>
+      <strong>ID: </strong>
       <span>{dataMap.get('id')}</span>
     </p>
     <p>
-      <strong>Name:</strong>
+      <strong>Name: </strong>
       <span>{dataMap.get('name')}</span>
     </p>
     <p>
-      <strong>Username:</strong>
+      <strong>Username: </strong>
       <span>{dataMap.get('username')}</span>
+    </p>
+    <p>
+      <strong>Type: </strong>
+      <span>{dataMap.get('type')}</span>
+    </p>
+    <p>
+      <strong>Description: </strong>
+      <span>{dataMap.get('description')}</span>
     </p>
   </div>
 );
@@ -25,6 +33,8 @@ RenderMap.propTypes = {
     name: PropTypes.string,
     id: PropTypes.string,
     username: PropTypes.string,
+    description: PropTypes.string,
+    type: PropTypes.string,
   }),
 };
 

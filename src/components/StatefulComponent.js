@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import ButtonComponent from './ReusableComponents/ButtonComponent';
+import FieldComponent from './ReusableComponents/FieldComponent';
 
 class StatefulComponent extends Component {
   constructor(props) {
@@ -80,19 +82,15 @@ class StatefulComponent extends Component {
       <div>
         <h3>Stateful Component</h3>
         <form className="form-inline" autoComplete="off">
-          <input
+          <FieldComponent
             type="number"
             name="counter"
             id="counter"
             value={this.state.counter}
             onChange={this.handleManualChange}
           />
-          <button type="button" onClick={this.decrease}>
-            -
-          </button>
-          <button type="button" onClick={this.increase}>
-            +
-          </button>
+          <ButtonComponent onClick={this.decrease} label="-" />
+          <ButtonComponent onClick={this.increase} label="+" />
         </form>
       </div>
     );
