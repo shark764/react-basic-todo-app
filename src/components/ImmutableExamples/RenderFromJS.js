@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import RenderItem from './RenderItem';
 
@@ -23,5 +25,14 @@ const RenderFromJS = ({ items }) => (
     </div>
   </div>
 );
+
+RenderFromJS.propTypes = {
+  items: ImmutablePropTypes.listOf(
+    ImmutablePropTypes.contains({
+      name: PropTypes.string,
+      id: PropTypes.string,
+    }),
+  ),
+};
 
 export default RenderFromJS;

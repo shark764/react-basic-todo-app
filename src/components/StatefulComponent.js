@@ -9,6 +9,7 @@ class StatefulComponent extends Component {
     };
   }
 
+  // eslint-disable-next-line react/no-deprecated
   componentWillMount() {
     console.log('%c StatefulComponent is about to mount...', 'background: #f6f7f8; color: #21252b;');
   }
@@ -17,6 +18,7 @@ class StatefulComponent extends Component {
     console.log('%c StatefulComponent just mounted...', 'background: #f6f7f8; color: #21252b;');
   }
 
+  // eslint-disable-next-line react/no-deprecated
   componentWillReceiveProps(nextProps) {
     console.log('%c StatefulComponent is about to receive props...', 'background: #f6f7f8; color: #21252b;', nextProps);
   }
@@ -26,7 +28,7 @@ class StatefulComponent extends Component {
       '%c Should StatefulComponent update its own state?...',
       'background: #ece0c8; color: #21252b;',
       nextProps,
-      nextState
+      nextState,
     );
     /**
      * Avoid updating component if next state equals current one
@@ -37,12 +39,13 @@ class StatefulComponent extends Component {
     return true;
   }
 
+  // eslint-disable-next-line react/no-deprecated
   componentWillUpdate(nextProps, nextState) {
     console.log(
       '%c StatefulComponent is about to update...',
       'background: #f6f7f8; color: #21252b;',
       nextProps,
-      nextState
+      nextState,
     );
   }
 
@@ -59,20 +62,16 @@ class StatefulComponent extends Component {
   }
 
   decrease = () => {
-    this.setState(prevState => {
-      return { counter: prevState.counter - 1 };
-    });
+    this.setState(prevState => ({ counter: prevState.counter - 1 }));
   };
 
   increase = () => {
-    this.setState(prevState => {
-      return { counter: prevState.counter + 1 };
-    });
+    this.setState(prevState => ({ counter: prevState.counter + 1 }));
   };
 
   handleManualChange = e => {
     this.setState({
-      counter: parseInt(e.target.value),
+      counter: parseInt(e.target.value, 10),
     });
   };
 
