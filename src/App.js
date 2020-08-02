@@ -1,11 +1,10 @@
 import React from 'react';
 
-import Router from './components/Router';
+import HelloWorld from './components/HelloWorld';
+import HelloUniverse from './components/HelloUniverse';
 
 import logo from './assets/image/logo.svg';
 import './assets/css/App.css';
-import './assets/css/table.css';
-import './assets/css/form.css';
 
 function App() {
   return (
@@ -17,7 +16,10 @@ function App() {
         </a>
       </header>
 
-      <Router />
+      <HelloWorld />
+      <div className="App-main">
+        <HelloUniverse />
+      </div>
     </div>
   );
 }
