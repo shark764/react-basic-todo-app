@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/button-has-type */
 import React from 'react';
@@ -12,12 +13,12 @@ const FieldComponent = ({ component = 'input', type = 'text', className = '', st
       return <textarea className={className} style={style} {...rest} />;
 
     case 'select': {
-      const { emptyLabel, options, ...restSelect } = rest;
+      const { required, placeholder, options, ...restSelect } = rest;
       return (
         <select className={className} style={style} {...restSelect}>
-          {emptyLabel && (
+          {!required && (
             <option value="" disabled>
-              {emptyLabel}
+              {placeholder}
             </option>
           )}
           {options.map(option => (
