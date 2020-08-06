@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { fromJS } from 'immutable';
 import Layout from './layout';
 import { updateItem, removeItem, openEditPanel } from '../../redux/actions';
 
@@ -47,7 +46,7 @@ class Item extends Component {
      * if user already pressed enter
      */
     if (item.get('name') !== name) {
-      onUpdateItem(item.get('id'), fromJS({ name }));
+      onUpdateItem(item.get('id'), { name });
     }
   };
 
@@ -68,12 +67,9 @@ class Item extends Component {
   handleCheck = () => {
     const { item, onUpdateItem } = this.props;
     const { isCompleted } = this.state;
-    onUpdateItem(
-      item.get('id'),
-      fromJS({
-        isCompleted: !isCompleted,
-      }),
-    );
+    onUpdateItem(item.get('id'), {
+      isCompleted: !isCompleted,
+    });
     this.setState(prevState => ({
       isCompleted: !prevState.isCompleted,
     }));

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import moment from 'moment';
 import { humanize } from '../../utils';
-function Layout(props) {
+const Layout = props => {
   const {
     item,
     name,
@@ -63,7 +63,7 @@ function Layout(props) {
       </div>
     </div>
   );
-}
+};
 
 Layout.propTypes = {
   item: ImmutablePropTypes.contains({

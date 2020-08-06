@@ -3,9 +3,11 @@ import { reduxForm } from 'redux-form/immutable';
 import Layout from './layout';
 import { formSubmit, setSelectedItemId } from '../../redux/actions';
 import { getSelectedItemId, getSelectedItem } from '../../redux/selectors';
+import validate from './validate';
 
 const Form = reduxForm({
   onSubmit: (values, dispatch) => dispatch(formSubmit('edit', values)),
+  validate,
   destroyOnUnmount: true,
 })(Layout);
 

@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { fromJS } from 'immutable';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { v1 as uuid } from 'uuid';
 
 import { getSelectedItemId, getRenderCreate, getRenderEdit } from '../../redux/selectors';
-import { addItem, closePanel, clearList, openCreatePanel } from '../../redux/actions';
+import { addItem, closePanel, clearList, openCreatePanel, retrieveTodos } from '../../redux/actions';
 import Layout from './layout';
 
 class Main extends Component {
@@ -15,6 +13,10 @@ class Main extends Component {
     this.state = {
       name: '',
     };
+  }
+
+  componentDidMount() {
+    this.props.retrieveTodos();
   }
 
   handleInputChange = e => {
@@ -42,21 +44,14 @@ class Main extends Component {
     }
 
     /**
-     * New item with default data
-     */
-    const newItem = fromJS({
-      id: uuid(),
-      name,
-      description: '',
-      type: 'daily-task',
-      createdAt: Date.now(),
-      isCompleted: false,
-    });
-    /**
      * We call the handler for new items and pass
      * an object with new task and key
      */
-    this.props.onAddItem(newItem);
+    this.props.onAddItem({
+      name,
+      description: '',
+      type: 'daily-task',
+    });
 
     this.setState({
       name: '',
@@ -91,6 +86,7 @@ Main.propTypes = {
   onClearList: PropTypes.func,
   onClosePanel: PropTypes.func,
   onOpenCreatePanel: PropTypes.func,
+  retrieveTodos: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -104,6 +100,7 @@ const actions = {
   onClearList: clearList,
   onClosePanel: closePanel,
   onOpenCreatePanel: openCreatePanel,
+  retrieveTodos,
 };
 
 export default connect(mapStateToProps, actions)(Main);

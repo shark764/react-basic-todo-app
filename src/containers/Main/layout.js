@@ -6,7 +6,7 @@ import Create from '../Create';
 import Edit from '../Edit';
 import SidePanel from '../../components/SidePanel';
 
-function Layout(props) {
+const Layout = props => {
   const {
     name,
     handleInputChange,
@@ -54,7 +54,7 @@ function Layout(props) {
       )}
     </div>
   );
-}
+};
 
 Layout.propTypes = {
   renderCreate: PropTypes.bool,

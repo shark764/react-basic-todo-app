@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Item from '../Item';
 
-function Layout(props) {
+const Layout = props => {
   const { items, checkedAll, handleCheck, ...rest } = props;
   return (
     <div className="rTable">
@@ -39,7 +39,7 @@ function Layout(props) {
       </div>
     </div>
   );
-}
+};
 
 Layout.propTypes = {
   items: ImmutablePropTypes.listOf(

@@ -1,10 +1,9 @@
-export function humanize(str) {
-  return str
+export const humanize = str =>
+  str
     .replace(/^[\s_]+|[\s_]+$/g, '')
     .replace(/[_\s]+/g, ' ')
     .replace(/[-\s]+/g, ' ')
     .replace(/^[a-z]/, match => match.toUpperCase());
-}
 
 export const taskTypes = [
   { value: 'dev-task', label: 'Development task' },

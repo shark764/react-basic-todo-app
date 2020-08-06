@@ -14,9 +14,9 @@
   --bgColorH: 0;
   --bgColorS: 0%;
   --bgColorL: 98%;
-  --fgColorH: 197;
-  --fgColorS: 100%;
-  --fgColorL: 45.9%;
+  --fgColorH: 216;
+  --fgColorS: 13.2%;
+  --fgColorL: 14.9%;
   --shadeDark: 0.3;
   --shadeLight: 0.7;
   --shadeNormal: 0.5;
@@ -43,7 +43,7 @@
 }
 .rTableHeading {
   display: table-header-group;
-  background-color: #ff7260;
+  background-color: #21252b;
   font-weight: bold;
   color: #ffffff;
 }

@@ -1,85 +1,87 @@
-import { v1 as uuid } from 'uuid';
 import * as ACTIONS from '../constants';
 
-export function formSubmit(action, payload) {
+export const formSubmit = (action, payload) => {
   if (action === 'edit') {
-    return updateItem(payload.get('id'), payload);
+    return updateItem(payload.get('id'), payload.toJS());
   }
 
-  return addItem(payload.set('id', uuid()).set('createdAt', Date.now()).set('isCompleted', false));
-}
+  return addItem(payload.toJS());
+};
 
-export function addItem(payload) {
-  return {
-    type: ACTIONS.ADD_ITEM,
-    payload,
-  };
-}
+export const addItem = payload => ({
+  type: ACTIONS.ADD_ITEM,
+  payload,
+});
 
-export function updateItem(id, payload) {
-  return {
-    type: ACTIONS.UPDATE_ITEM,
-    id,
-    payload,
-  };
-}
+export const storeAddedItem = payload => ({
+  type: ACTIONS.STORE_ADDED_ITEM,
+  payload,
+});
 
-export function removeItem(id) {
-  return {
-    type: ACTIONS.REMOVE_ITEM,
-    id,
-  };
-}
+export const updateItem = (id, payload) => ({
+  type: ACTIONS.UPDATE_ITEM,
+  id,
+  payload,
+});
 
-export function setSelectedItemId(id) {
-  return {
-    type: ACTIONS.SET_SELECTED_ITEM_ID,
-    id,
-  };
-}
+export const storeUpdatedItem = (id, payload) => ({
+  type: ACTIONS.STORE_UPDATED_ITEM,
+  id,
+  payload,
+});
 
-export function setRenderCreate(payload) {
-  return {
-    type: ACTIONS.SET_RENDER_CREATE,
-    payload,
-  };
-}
+export const removeItem = id => ({
+  type: ACTIONS.REMOVE_ITEM,
+  id,
+});
 
-export function setRenderEdit(payload) {
-  return {
-    type: ACTIONS.SET_RENDER_EDIT,
-    payload,
-  };
-}
+export const removedItem = id => ({
+  type: ACTIONS.REMOVED_ITEM,
+  id,
+});
 
-export function closePanel() {
-  return {
-    type: ACTIONS.CLOSE_PANEL,
-  };
-}
+export const setSelectedItemId = id => ({
+  type: ACTIONS.SET_SELECTED_ITEM_ID,
+  id,
+});
 
-export function clearList() {
-  return {
-    type: ACTIONS.CLEAR_LIST,
-  };
-}
+export const setRenderCreate = payload => ({
+  type: ACTIONS.SET_RENDER_CREATE,
+  payload,
+});
 
-export function toggleAll(bool) {
-  return {
-    type: ACTIONS.TOGGLE_ALL,
-    bool,
-  };
-}
+export const setRenderEdit = payload => ({
+  type: ACTIONS.SET_RENDER_EDIT,
+  payload,
+});
 
-export function openCreatePanel() {
-  return {
-    type: ACTIONS.OPEN_CREATE_PANEL,
-  };
-}
+export const closePanel = () => ({
+  type: ACTIONS.CLOSE_PANEL,
+});
 
-export function openEditPanel(id) {
-  return {
-    type: ACTIONS.OPEN_EDIT_PANEL,
-    id,
-  };
-}
+export const clearList = () => ({
+  type: ACTIONS.CLEAR_LIST,
+});
+
+export const toggleAll = bool => ({
+  type: ACTIONS.TOGGLE_ALL,
+  bool,
+});
+
+export const openCreatePanel = () => ({
+  type: ACTIONS.OPEN_CREATE_PANEL,
+});
+
+export const openEditPanel = id => ({
+  type: ACTIONS.OPEN_EDIT_PANEL,
+  id,
+});
+
+export const retrieveTodos = () => ({
+  type: ACTIONS.RETRIEVE_ITEMS,
+});
+
+export const storeRetrievedItems = payload => ({
+  type: ACTIONS.STORE_RETRIEVED_ITEMS,
+  payload,
+});

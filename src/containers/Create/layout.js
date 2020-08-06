@@ -5,7 +5,7 @@ import { Field } from 'redux-form/immutable';
 import PropTypes from 'prop-types';
 import { taskTypes } from '../../utils';
 
-function Layout(props) {
+const Layout = props => {
   const { key, handleSubmit, pristine, reset, submitting, mode } = props;
 
   let content = (
@@ -52,7 +52,7 @@ function Layout(props) {
   }
 
   return content;
-}
+};
 
 Layout.propTypes = {
   key: PropTypes.string,

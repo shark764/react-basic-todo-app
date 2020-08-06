@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function SidePanel(props) {
+const SidePanel = props => {
   const { handleClose, children } = props;
   return (
     <div className="App-sidepanel">
@@ -11,7 +11,7 @@ function SidePanel(props) {
       {children}
     </div>
   );
-}
+};
 SidePanel.propTypes = {
   children: PropTypes.shape({}),
   handleClose: PropTypes.func,
