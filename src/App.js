@@ -10,6 +10,7 @@ import HelloUniverse from './components/HelloUniverse';
 import HelloImmutable from './components/ImmutableExamples/HelloImmutable';
 import StatefulComponent from './components/StatefulComponent';
 import FormWithReusableComponents from './components/ReusableComponents';
+import Todo from './components/Todo';
 
 function App() {
   return (
@@ -38,6 +39,8 @@ function App() {
       <div className="App-main">
         <FormWithReusableComponents />
       </div>
+       <h2>Todo Example</h2>
+      <Todo />
     </div>
   );
 }
