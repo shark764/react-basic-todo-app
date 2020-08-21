@@ -78,3 +78,14 @@
 .content-not-found {
   color: tomato;
 }
+
+.TodoContainer {
+  padding: 20px;
+  display: flex;
+}
+.TodoForm {
+  width: 200px;
+}
+.TasksList{
+  padding: 20px;
+}
