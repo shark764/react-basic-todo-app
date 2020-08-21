@@ -8,7 +8,6 @@ import './assets/css/form.css';
 import HelloWorld from './components/HelloWorld';
 import HelloUniverse from './components/HelloUniverse';
 import HelloImmutable from './components/ImmutableExamples/HelloImmutable';
-import StatefulComponent from './components/StatefulComponent';
 
 function App() {
   return (
@@ -27,11 +26,7 @@ function App() {
       </div>
 
       <div className="App-main">
-        <HelloImmutable />
-      </div>
-
-      <div className="App-main">
-        <StatefulComponent />
+        <HelloImmutable /> 
       </div>
     </div>
   );
