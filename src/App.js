@@ -6,6 +6,7 @@ import logo from './assets/image/logo.svg';
 import './assets/css/App.css';
 import './assets/css/table.css';
 import './assets/css/form.css';
+import Todo from './components/Todo';
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
       </header>
 
       <Routing />
+      <h2>Todo Example</h2>
+      <Todo />
     </div>
   );
 }
