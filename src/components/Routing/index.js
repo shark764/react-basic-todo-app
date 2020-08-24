@@ -8,6 +8,7 @@ import TodoList from '../../containers/TodoList';
 import About from '../../containers/About';
 import FormWithReusableComponents from '../../containers/Form';
 import ReferenceUsage from '../../containers/ReferenceUsage';
+import Todo from '../Todo';
 import Menu from './Menu';
 
 const Routing = () => (
@@ -22,6 +23,7 @@ const Routing = () => (
         <Route path="/form/" component={FormWithReusableComponents} exact />
         <Route path="/ref/" component={ReferenceUsage} exact />
         <Route path="/about" component={About} exact />
+        <Route path="/todo-list" component={Todo} exact />
         <Route component={NotFound} />
         <Redirect to="/home" />
       </Switch>

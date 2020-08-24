@@ -35,6 +35,11 @@ const Menu = () => (
             About
           </Link>
         </li>
+        <li>
+          <Link to="/todo-list" className="nav-link">
+            Todo List Example
+          </Link>
+        </li>
       </ul>
     </nav>
     <hr />

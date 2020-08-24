@@ -206,7 +206,12 @@ class FormWithReusableComponents extends Component {
                   <div style={{ order: 3, display: 'inline-grid' }}>
                     {form.options.map(option => (
                       <span key={option.value}>
-                        value: <strong>{option.value}</strong>, label: <strong>{option.label}</strong>
+                        value: 
+{' '}
+<strong>{option.value}</strong>
+, label: 
+{' '}
+<strong>{option.label}</strong>
                       </span>
                     ))}
                   </div>
