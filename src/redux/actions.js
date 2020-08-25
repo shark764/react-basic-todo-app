@@ -24,3 +24,16 @@ export function onSubmitForm() {
     type: 'ON_SUBMIT_FORM',
   };
 }
+
+export function fetchData() {
+  return {
+    type: 'FETCH_DATA',
+  };
+}
+
+export function setFetchedData(data) {
+  return {
+    type: 'SET_FETCHED_DATA',
+    data,
+  };
+}

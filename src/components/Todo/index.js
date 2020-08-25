@@ -3,9 +3,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import TodoItem from './TodoItem';
 import TodoForm from './TodoForm';
-import { checkAll, onTaskClicked, onNewNameChanged, onSubmitForm } from '../../redux/actions';
+import { checkAll, onTaskClicked, onNewNameChanged, onSubmitForm, fetchData } from '../../redux/actions';
 
 class Todo extends Component {
+  componentDidMount() {
+    this.props.fetchData();
+  }
+
   onSubmitForm = e => {
     e.preventDefault();
 
@@ -68,11 +72,18 @@ class Todo extends Component {
 
 Todo.propTypes = {
   newName: PropTypes.string,
-  tasks: PropTypes.shape([]),
+  tasks: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      checked: PropTypes.bool,
+      id: PropTypes.string,
+    }),
+  ),
   checkAll: PropTypes.func,
   onTaskClicked: PropTypes.func,
   onNewNameChanged: PropTypes.func,
   onSubmitForm: PropTypes.func,
+  fetchData: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -85,6 +96,7 @@ const actions = {
   onTaskClicked,
   onNewNameChanged,
   onSubmitForm,
+  fetchData,
 };
 
 export default connect(mapStateToProps, actions)(Todo);
