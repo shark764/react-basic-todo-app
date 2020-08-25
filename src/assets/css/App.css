@@ -101,3 +101,12 @@
 .TasksList ul li input {
   margin-right: 5px;
 }
+.TasksList ul li button {
+  margin-left: 15px;
+  background: transparent;
+  color: white;
+  border: 0;
+  color: #21252b;
+  font-weight: 900;
+  font-size: large;
+}

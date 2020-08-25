@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux-immutable';
+import { reducer as formReducer } from 'redux-form/immutable';
 import { fromJS } from 'immutable';
 
 const initialState = fromJS({
@@ -12,27 +13,26 @@ const reducer = (state = initialState, action) => {
       return state.update('tasks', tasks => tasks.map(item => item.set('checked', action.bool)));
     }
 
-    case 'ON_TASK_CLICKED': {
-      return state.update('tasks', tasks =>
-        tasks.map(task => (task.get('id') === action.id ? task.set('checked', !task.get('checked')) : task))
-      );
-    }
-
     case 'ON_NEW_NAME_CHANGED': {
       return state.set('newName', action.text);
     }
 
-    case 'ON_SUBMIT_FORM': {
-      const task = fromJS({
-        id: Math.random().toString(36).substring(2),
-        name: state.get('newName'),
-        checked: false,
-      });
-      return state.update('tasks', tasks => tasks.push(task));
-    }
-
     case 'SET_FETCHED_DATA': {
       return state.set('tasks', fromJS(action.data));
+    }
+
+    case 'TASK_CREATED': {
+      return state.update('tasks', tasks => tasks.unshift(fromJS(action.data)));
+    }
+
+    case 'TASK_UPDATED': {
+      const index = state.get('tasks').findIndex(task => task.get('id') === action.id);
+      return state.updateIn(['tasks', index], task => task.merge(action.data));
+    }
+
+    case 'TASK_REMOVED': {
+      const index = state.get('tasks').findIndex(task => task.get('id') === action.id);
+      return state.deleteIn(['tasks', index]);
     }
 
     default:
@@ -42,4 +42,5 @@ const reducer = (state = initialState, action) => {
 
 export default combineReducers({
   app: reducer,
+  form: formReducer,
 });
